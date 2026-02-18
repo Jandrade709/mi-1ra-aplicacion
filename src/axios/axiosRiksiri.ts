@@ -1,6 +1,7 @@
 import axios from 'axios';
+
 const axiosRiksiri = axios.create({
-    baseURL: 'https://api.riksri.com/api ',
+    baseURL: 'https://api.riksiri.com/api/',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -12,4 +13,5 @@ axiosRiksiri.interceptors.request.use(config => {
     }
     return config;
 });
+
 export default axiosRiksiri;

@@ -3,7 +3,7 @@
         <ion-menu content-id="main-content">
             <ion-header>
             <ion-toolbar color="tertiary">
-                <ion-title>Menu Content</ion-title>
+                <ion-title>Menu</ion-title>
             </ion-toolbar>
             </ion-header>
             <ion-content>
@@ -19,7 +19,7 @@
                         <ion-accordion-group>
                             <ion-accordion value="first">
                             <ion-item slot="header" color="light">
-                                <ion-label>First Accordion</ion-label>
+                                <ion-label>Nintendo Games</ion-label>
                             </ion-item>
                                 <div slot="content">
                                     <ion-list>
@@ -43,48 +43,48 @@
                             </ion-accordion>
                             <ion-accordion value="second">
                             <ion-item slot="header" color="light">
-                                <ion-label>Second Accordion</ion-label>
+                                <ion-label>PlayStation Games</ion-label>
                             </ion-item>
                                 <div slot="content">
                                     <ion-list>
                                         <ion-item>
-                                            <ion-label>Pokémon Yellow</ion-label>
+                                            <ion-label>Marvel's Spider-Man 2</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>Mega Man X</ion-label>
+                                            <ion-label>Bloodborne</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>The Legend of Zelda</ion-label>
+                                            <ion-label>Final Fantasy VII Rebirth</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>Pac-Man</ion-label>
+                                            <ion-label>God of War Ragnarok</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>Super Mario World</ion-label>
+                                            <ion-label>Horizon Forbidden West:</ion-label>
                                         </ion-item>
                                     </ion-list>
                                 </div>
                             </ion-accordion>
                             <ion-accordion value="third">
                             <ion-item slot="header" color="light">
-                                <ion-label>Third Accordion</ion-label>
+                                <ion-label>PC Games</ion-label>
                             </ion-item>
                                 <div slot="content">
                                     <ion-list>
                                         <ion-item>
-                                            <ion-label>Pokémon Yellow</ion-label>
+                                            <ion-label>Ciberpunk 2077</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>Mega Man X</ion-label>
+                                            <ion-label>Baldur´s Gate 3</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>The Legend of Zelda</ion-label>
+                                            <ion-label>Counter-Strike 2</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>Pac-Man</ion-label>
+                                            <ion-label>Red Dead Redemption 2</ion-label>
                                         </ion-item>
                                         <ion-item>
-                                            <ion-label>Super Mario World</ion-label>
+                                            <ion-label>Elden Ring</ion-label>
                                         </ion-item>
                                     </ion-list></div>
                             </ion-accordion>
@@ -98,12 +98,12 @@
             <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
             </ion-buttons>
-            <ion-title>Menu</ion-title>
+            <ion-title>Inicio</ion-title>
         </ion-toolbar>
         </ion-header>
         <ion-content id="main-content" class="ion-padding">
             
-             Tap the button in the toolbar to open the menu. </ion-content>
+             Presiona el botón en la barra de herramientas para abrir el menú y ver los juegos disponibles. </ion-content>
     </ion-page>
 </template>
 
