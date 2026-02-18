@@ -3,8 +3,8 @@ import { RouteRecordRaw } from 'vue-router';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import { useUserStore } from '@/stores/user';
 
-const Login = () => import('@/views/Login.vue');
-const Registro = () => import('@/views/Registro.vue');  
+const Login = () => import('@/views/LoginPage.vue');
+const Registro = () => import('@/views/RegistroPage.vue');  
 
 const routes: Array<RouteRecordRaw> = [
   {

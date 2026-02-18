@@ -3,7 +3,7 @@
         <ion-header>
             <ion-toolbar>
             
-                <ion-title>Login</ion-title>
+                <ion-title>Inicio de Sesión</ion-title>
                 <ion-buttons slot="end">
                     <ion-button fill="solid" @click="router.push({ name: 'Registro'})">Registrarse</ion-button>
                 </ion-buttons>

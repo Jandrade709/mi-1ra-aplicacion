@@ -5,7 +5,7 @@
             
             <ion-title>Registro</ion-title>
             <ion-buttons slot="end">
-                <ion-button fill="solid" @click="router.push({ name: 'Login'})">Login</ion-button>
+                <ion-button fill="solid" @click="router.push({ name: 'Login'})">Registro</ion-button>
             </ion-buttons>
         </ion-toolbar>
         </ion-header>
