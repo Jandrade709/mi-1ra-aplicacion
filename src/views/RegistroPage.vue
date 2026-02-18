@@ -126,7 +126,7 @@ function handleRegister() {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 20px;
 }
 
@@ -157,7 +157,7 @@ function handleRegister() {
 }
 
 ion-header {
-    --background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --border-color: transparent;
 }
 
@@ -169,7 +169,7 @@ ion-title {
 }
 
 ion-content {
-    --background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 ion-item {
@@ -212,7 +212,7 @@ ion-label[color="danger"] {
 
 ion-button {
     --background: #ffffff;
-    --color: #f5576c;
+    --color: #667eea;
     --border-radius: 8px;
     --padding-start: 32px;
     --padding-end: 32px;
