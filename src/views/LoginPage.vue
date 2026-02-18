@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 import { IonPage, IonHeader, IonToolbar, 
     IonTitle, IonContent, alertController, 
-    IonItem, IonInput, IonButton, IonLabel, IonButtons } from '@ionic/vue';
+    IonItem, IonInput, IonButton, IonButtons } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
 
@@ -49,7 +49,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 function handleLogin() {
-    userStore.$login().then( res => {
+    userStore.$login().then( () => {
         router.push({ name: 'Seccion' });       
     }).catch( error => {
         alertController.create({

@@ -20,7 +20,7 @@
                     placeholder="Ingrese el usuario">
                 </ion-input>
             </ion-item>
-            <ion-item v-if="$v.usuario.$errors.length">
+            <ion-item v-if="$v.usuario?.$errors?.length && $v.usuario.$dirty">
                 <ion-label color="danger">
                     El usuario es requerido y debe tener al menos 4 caracteres
                 </ion-label>
@@ -35,7 +35,7 @@
                     placeholder="Ingrese un email">
                 </ion-input>
             </ion-item>
-            <ion-item v-if="$v.email.$errors.length">
+            <ion-item v-if="$v.email?.$errors?.length && $v.email.$dirty">
                 <ion-label color="danger">
                     El email es requerido y debe tener un formato válido
                 </ion-label>
@@ -51,7 +51,7 @@
                     type="password">
                 </ion-input>
             </ion-item>
-            <ion-item v-if="$v.password.$errors.length">
+            <ion-item v-if="$v.password?.$errors?.length && $v.password.$dirty">
                 <ion-label color="danger">
                     La contraseña es requerida y debe tener al menos 6 caracteres
                 </ion-label>
@@ -89,10 +89,10 @@ const rules = {
     }       
 }
 
-const $v = useVuelidate(rules, userStore.registro);
+// Corrección: Pasar userStore.$state para acceso reactivo correcto
+const $v = useVuelidate(rules, userStore.$state.registro, { $autoDirty: true });
 
 function handleRegister() {
-
     $v.value.$touch();
     if(!$v.value.$invalid) {
         userStore.$registro().then( () => {
