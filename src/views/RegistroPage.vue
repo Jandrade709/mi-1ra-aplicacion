@@ -69,6 +69,16 @@
                 <ion-item class="ion-margin-top" lines="none">
                     <ion-button @click="handleRegister" expand="block"> Registrarse </ion-button>
                 </ion-item>
+                <ion-item class="ion-margin-top" lines="none">
+                    <ion-button color="tertiary" @click="loadRandomUser" expand="block"> Presiona para ver un ejemplo de usuario </ion-button>
+                </ion-item>
+                <div v-if="userStore.userData" class="example-user ion-margin-top">
+                    <img v-if="userStore.userData.picture" :src="userStore.userData.picture" alt="avatar" class="avatar" />
+                    <div class="user-info">
+                        <strong>{{ userStore.userData.name }}</strong>
+                        <div>{{ userStore.userData.email }}</div>
+                    </div>
+                </div>
             </div>
         </ion-content>
     </ion-page>
@@ -78,6 +88,7 @@
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, 
     IonInput, IonButton, IonLabel, IonButtons, alertController } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
+import { fetchRandomUsers } from '@/axios/axiosRandom';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, minLength } from '@vuelidate/validators'
@@ -117,6 +128,13 @@ function handleRegister() {
         })
     }
 }   
+async function loadRandomUser(){
+    try{
+        await fetchRandomUsers(1);
+    }catch(e){
+        console.warn('Error cargando usuario ejemplo', e);
+    }
+}
 </script>
 
 <style scoped>
@@ -232,5 +250,20 @@ ion-button:hover {
 
 ion-button[expand="block"] {
     margin-top: 10px;
+}
+
+.example-user{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:12px;
+    color: #fff;
+}
+.example-user .avatar{
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid rgba(255,255,255,0.6);
 }
 </style>

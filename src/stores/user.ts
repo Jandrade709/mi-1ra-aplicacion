@@ -28,6 +28,16 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
+    function setRandomUser(data: any | null){
+        if(data){
+            userData.value = data;
+            localStorage.setItem('userData', JSON.stringify(data));
+        } else {
+            userData.value = null;
+            localStorage.removeItem('userData');
+        }
+    }
+
     function $login(){
         return axiosRiksiri.post('login', login.value).then( res => {
             $setLogin(res.data);
@@ -41,5 +51,5 @@ export const useUserStore = defineStore('user', () => {
             return res.data;
         })
     }
-    return { registro, login, $login, token, $setLogin, userData, $registro };
+    return { registro, login, $login, token, $setLogin, userData, $registro, setRandomUser };
 });
