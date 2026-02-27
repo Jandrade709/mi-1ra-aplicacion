@@ -28,6 +28,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/camara',
+    name: 'Camara',
+    component: () => import('@/views/Camara.vue'),
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
     path: '/seccion',
     name: 'Seccion',
     component: BaseLayout,
