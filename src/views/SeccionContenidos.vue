@@ -14,7 +14,6 @@
                      allowfullscreen>
                     </iframe>
             </div>
-            <pre>{{ contentStore.next }}</pre>
         </ion-content>
         <ion-footer :translucent="true">
             <ion-toolbar>
@@ -25,55 +24,54 @@
     </ion-page>
 </template>
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonFooter, IonButton, IonProgressBar } from '@ionic/vue';
+import { computed, watch } from 'vue';
+import { IonPage, IonToolbar, IonContent, IonFooter, IonButton, IonProgressBar } from '@ionic/vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useContentStore } from '@/stores/content';
 const route = useRoute(); 
 const contentStore = useContentStore();
 const router = useRouter();
 
-checkNext()
+type MenuItem = {
+  id: number | null;
+  url: string | null;
+  internal_name: string;
+  active?: string;
+};
 
-function checkNext(){
-  let i = 0;
-  setTimeout(() => {
-    contentStore.menu.map( (item: any) => {
-      item.sub.map( (sub_item: any) => {
-        if(i === 1){
-          contentStore.$setNext(sub_item)
-          i++;
-        }
-        if(sub_item.internal_name === route.params.name){
-          i++;
-        }
-      })
-    })
-  }, 200)
+const currentName = computed(() => typeof route.params.name === 'string' ? route.params.name : '');
+
+function updateNext() {
+  const items = contentStore.menu.flatMap((group: { sub?: MenuItem[] }) => group.sub || []);
+  const currentIndex = items.findIndex((item) => item.internal_name === currentName.value);
+  const nextItem = currentIndex >= 0 ? items[currentIndex + 1] : null;
+  contentStore.$setNext(nextItem || null);
 }
 
-async function setNext(){
+function activateNextItem() {
+  const updatedMenu = contentStore.menu.map((group: { sub?: MenuItem[] }) => ({
+    ...group,
+    sub: (group.sub || []).map((item) => ({
+      ...item,
+      active: item.id === contentStore.next.id ? 'yes' : item.active,
+    })),
+  }));
 
-  contentStore.menu.map( (item: any) => {
-    item.sub.map( (sub_item: any) => {
-      if(sub_item.id === contentStore.next.id) {
-        sub_item.active = 'yes';
-      }
-    })
-  })
-  sessionStorage.setItem('menu', JSON.stringify(contentStore.menu));
+  contentStore.$setMenu(updatedMenu);
 }
 
 async function siguiente(){
-    if(contentStore.next.url){
-        
-        setNext();
-        checkNext();
-        contentStore.$getContent(contentStore.next.internal_name).then( res => {
-            contentStore.$seteaSiguiente();
-            router.push('/' + contentStore.next.url);
-        })
+    if(contentStore.next.url && contentStore.next.internal_name){
+        activateNextItem();
+        await contentStore.$getContent(contentStore.next.internal_name);
+        await contentStore.$seteaSiguiente();
+        await router.push('/' + contentStore.next.url);
     }
 }
+
+watch([() => contentStore.menu, currentName], () => {
+  updateNext();
+}, { deep: true, immediate: true });
 </script>
 <style scoped>
 .video-container {

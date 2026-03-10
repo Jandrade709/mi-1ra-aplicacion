@@ -68,21 +68,27 @@ const contentStore = useContentStore();
 const router = useRouter();
 const loading = ref(false);
 
-function handleLogin() {
+async function handleLogin() {
     loading.value = true;
-    userStore.$login().then( res => {
-        loading.value = false;
-        contentStore.$getContent(contentStore.home.internal_name).then( res => {
-            router.push({ path: '/'+contentStore.home.url });
-        });
-    }).catch( error => {
-        alertController.create({
+    try {
+        await userStore.$login();
+        const fallbackPath = '/seccion';
+        const targetPath = contentStore.home.url ? `/${contentStore.home.url}` : fallbackPath;
+
+        if (contentStore.home.internal_name) {
+            await contentStore.$getContent(contentStore.home.internal_name);
+        }
+
+        await router.push({ path: targetPath });
+    } catch (error: any) {
+        await alertController.create({
             header: 'Error de inicio de sesión',
-            message: error.response.data.message,
+            message: error?.response?.data?.message || 'No se pudo iniciar sesión. Intenta nuevamente.',
             buttons: ['Continuar'],
-            }).then(alert => alert.present());
-            loading.value = false;
-    })
+        }).then(alert => alert.present());
+    } finally {
+        loading.value = false;
+    }
 }
 </script>
 

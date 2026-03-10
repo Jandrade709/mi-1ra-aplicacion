@@ -27,7 +27,7 @@
                                             <ion-menu-toggle v-if="item.active === 'yes'">
                                                 <ion-item 
                                                 :router-link="'/'+item.url"
-                                                @click="contentStore.$getContent(item.internal_name)"
+                                                @click="handleMenuNavigation(item.internal_name)"
                                                 >
                                                     <ion-label>{{ item.name }}</ion-label>
                                                 </ion-item>
@@ -57,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+  import { computed, watch } from 'vue';
   import { IonButtons, IonContent, IonHeader, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
   import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList, IonAvatar, IonButton, IonRouterOutlet,
     IonMenuToggle, IonProgressBar } from '@ionic/vue';
@@ -68,12 +69,30 @@
   const userStore = useUserStore();
   const router = useRouter();
   const route = useRoute();
+
+  const currentContentName = computed(() => {
+    const name = route.params.name;
+    return typeof name === 'string' ? name : '';
+  });
+
   async function handleLogout(){
     await userStore.$setLogin(null);
     router.push('/login');
   }
 
-  contentStore.$getContent(route.params.name as string);
+  async function handleMenuNavigation(name: string) {
+    if (name) {
+      await contentStore.$getContent(name);
+    }
+  }
+
+  watch(currentContentName, (name) => {
+    if (name) {
+      contentStore.$getContent(name);
+    } else {
+      contentStore.setContent(null);
+    }
+  }, { immediate: true });
 </script>
 
 <style scoped>

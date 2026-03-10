@@ -8,10 +8,15 @@ const Registro = () => import('@/views/RegistroPage.vue');
 const Camera = () => import('@/views/Camera.vue');
 const SeccionContenidos = () => import('@/views/SeccionContenidos.vue');
 
+function getAuthenticatedHomePath() {
+  const userStore = useUserStore();
+  return userStore.token ? (localStorage.getItem('home') ? JSON.parse(localStorage.getItem('home') as string)?.url : null) : null;
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/seccion'
+    redirect: () => getAuthenticatedHomePath() ? `/${getAuthenticatedHomePath()}` : '/login'
   },
   {
     path: '/login',
@@ -46,7 +51,11 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: 'name',
+        path: '',
+        redirect: () => getAuthenticatedHomePath() ? `/${getAuthenticatedHomePath()}` : '/login'
+      },
+      {
+        path: ':name',
         name: 'SeccionContenidos',
         component: SeccionContenidos,
         meta: {
@@ -65,10 +74,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
   const isAuthenticated = !!userStore.token;
+  const isGuestOnlyRoute = to.name === 'Login' || to.name === 'Registro';
+  const homePath = getAuthenticatedHomePath();
+
   if(to.meta.requiresAuth && !isAuthenticated) {
     next('/login');
-  }else if(isAuthenticated && !to.meta.requiresAuth) {
-    next('/seccion');
+  }else if(isAuthenticated && isGuestOnlyRoute) {
+    next(homePath ? `/${homePath}` : '/seccion');
   } else {
     next();
   }

@@ -124,18 +124,22 @@ const rules = {
 // Corrección: Pasar userStore.$state para acceso reactivo correcto
 const $v = useVuelidate(rules, userStore.$state.registro, { $autoDirty: true });
 
-function handleRegister() {
+async function handleRegister() {
     $v.value.$touch();
     if(!$v.value.$invalid) {
-        userStore.$registro().then( () => {
-            router.push({ name: 'Seccion' });       
-        }).catch( error => {
-            alertController.create({
+        loading.value = true;
+        try {
+            await userStore.$registro();
+            await router.push(userStore.userData ? { path: '/seccion' } : { name: 'Login' });
+        } catch (error: any) {
+            await alertController.create({
                 header: 'Error de registro',
-                message: error.response.data.message,
+                message: error?.response?.data?.message || 'No se pudo completar el registro.',
                 buttons: ['Continuar'],
-                }).then(alert => alert.present());
-        })
+            }).then(alert => alert.present());
+        } finally {
+            loading.value = false;
+        }
     }
 }   
 async function loadRandomUser(){

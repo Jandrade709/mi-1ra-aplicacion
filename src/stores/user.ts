@@ -6,13 +6,13 @@ import { useContentStore } from "./content";
 export const useUserStore = defineStore('user', () => {
     const token = ref(localStorage.getItem('token') || null);
     const registro = ref({
-        usuario: null,
-        email: null,
-        password: null,
+        usuario: '',
+        email: '',
+        password: '',
     });
     const login = ref({
-        username: null,
-        password: null,
+        username: '',
+        password: '',
     });
 
     const contentStore = useContentStore();
@@ -29,6 +29,8 @@ export const useUserStore = defineStore('user', () => {
         }else{
             localStorage.removeItem('token');
             localStorage.removeItem('userData');
+            userData.value = null;
+            contentStore.$resetState();
         }
     }
 
