@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import { createPinia } from 'pinia';
+import pinia from './stores/pinia';
 import { IonicVue } from '@ionic/vue';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 defineCustomElements(window);
@@ -40,7 +40,6 @@ import "@fortawesome/fontawesome-free/css/brands.css";
 
 /* Theme variables */
 import './theme/variables.css';
-const pinia = createPinia()
 const app = createApp(App)
   .use(IonicVue)
   .use(pinia)

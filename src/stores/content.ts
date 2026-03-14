@@ -45,11 +45,18 @@ const defaultNext = () => ({
     internal_name: "",
 });
 
+const defaultPrevious = () => ({
+    id: null as number | null,
+    url: null as string | null,
+    internal_name: "",
+});
+
 export const useContentStore = defineStore('content', () => {
     const menu = ref<MenuGroup[]>(localStorage.getItem('menu') ? JSON.parse(localStorage.getItem('menu') as string) : []);
     const content = ref<ContentState>(defaultContent());
     const home = ref(localStorage.getItem('home') ? JSON.parse(localStorage.getItem('home') as string) : defaultHome());
     const next = ref(defaultNext());
+    const previous = ref(defaultPrevious());
     const loading = ref(false);
 
     function setContent(data: any | null){
@@ -93,8 +100,16 @@ export const useContentStore = defineStore('content', () => {
         return axiosRiksiri.post('/seteasiguiente', next.value);
     }
 
+    function $seteaAnterior(){
+        return axiosRiksiri.post('/seteaanterior', previous.value);
+    }
+
     function $setNext(data: any | null){
         next.value = data || defaultNext();
+    }
+
+    function $setPrevious(data: any | null){
+        previous.value = data || defaultPrevious();
     }
 
     function $resetState() {
@@ -102,10 +117,11 @@ export const useContentStore = defineStore('content', () => {
         content.value = defaultContent();
         home.value = defaultHome();
         next.value = defaultNext();
+        previous.value = defaultPrevious();
         localStorage.removeItem('menu');
         localStorage.removeItem('home');
     }
 
-    return { content, setContent, menu, $setMenu, $getContent, loading, home, $setHome, next, $setNext, $seteaSiguiente, $resetState };
+    return { content, setContent, menu, $setMenu, $getContent, loading, home, $setHome, next, $setNext, $seteaSiguiente, previous, $setPrevious, $seteaAnterior, $resetState };
 
 });

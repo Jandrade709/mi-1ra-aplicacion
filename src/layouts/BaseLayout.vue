@@ -2,7 +2,7 @@
     <ion-page>
         <ion-menu content-id="main-content">
             <ion-header>
-            <ion-toolbar color="tertiary">
+            <ion-toolbar color="primary">
                 <ion-title>Menu</ion-title>
             </ion-toolbar>
             </ion-header>
@@ -10,15 +10,15 @@
                 <ion-list>
                     <ion-item>
                         <ion-avatar aria-hidden="true" slot="start">
-                            <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                            <img alt="Avatar de perfil" :src="userStore.userData?.picture || defaultAvatar" />
                         </ion-avatar>
-                        <ion-label>{{ userStore.userData.usuario }}</ion-label>
+                        <ion-label>{{ userStore.userData?.usuario || 'Usuario' }}</ion-label>
                         <ion-button slot="end" fill="solid" size="small" @click="handleLogout">Salir</ion-button>
                     </ion-item>
                     <ion-accordion-group>
                         <template v-for="(menu, key) in contentStore.menu" :key="key">
                             <ion-accordion :value="'menu-'+key">
-                                <ion-item slot="header" color="light">
+                                <ion-item slot="header" color="secondary">
                                     <ion-label><i :class="menu.icon"></i> {{ menu.name }}</ion-label>
                                 </ion-item>
                                 <div slot="content">
@@ -69,6 +69,7 @@
   const userStore = useUserStore();
   const router = useRouter();
   const route = useRoute();
+  const defaultAvatar = 'https://ionicframework.com/docs/img/demos/avatar.svg';
 
   const currentContentName = computed(() => {
     const name = route.params.name;
@@ -77,7 +78,7 @@
 
   async function handleLogout(){
     await userStore.$setLogin(null);
-    router.push('/login');
+    await router.replace('/login');
   }
 
   async function handleMenuNavigation(name: string) {
@@ -96,13 +97,4 @@
 </script>
 
 <style scoped>
-  ion-menu::part(backdrop) {
-    background-color: rgba(255, 0, 255, 0.5);
-  }
-
-  ion-menu::part(container) {
-    border-radius: 0 20px 20px 0;
-
-    box-shadow: 4px 0px 16px rgba(255, 0, 255, 0.18);
-  }
 </style>

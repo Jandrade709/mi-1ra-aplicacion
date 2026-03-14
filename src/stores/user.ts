@@ -18,12 +18,26 @@ export const useUserStore = defineStore('user', () => {
     const contentStore = useContentStore();
     const userData = ref(localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData') as string) : null); 
 
+    function getAvatarStorageKey(user: any | null) {
+        const key = user?.usuario || user?.email || 'default';
+        return `avatar:${key}`;
+    }
+
+    if (userData.value) {
+        const storedAvatar = localStorage.getItem(getAvatarStorageKey(userData.value));
+        if (storedAvatar) {
+            userData.value = { ...userData.value, picture: storedAvatar };
+            localStorage.setItem('userData', JSON.stringify(userData.value));
+        }
+    }
+
     function $setLogin(data: any | null){
         token.value = data?.token || null;
         if(token.value){
             localStorage.setItem('token', token.value || '');
-            localStorage.setItem('userData', JSON.stringify(data.user));
-            userData.value = data.user;
+            const storedAvatar = localStorage.getItem(getAvatarStorageKey(data.user));
+            userData.value = storedAvatar ? { ...data.user, picture: storedAvatar } : data.user;
+            localStorage.setItem('userData', JSON.stringify(userData.value));
             contentStore.$setMenu(data.menu);
             contentStore.$setHome(data.home);
         }else{
@@ -31,6 +45,8 @@ export const useUserStore = defineStore('user', () => {
             localStorage.removeItem('userData');
             userData.value = null;
             contentStore.$resetState();
+            login.value = { username: '', password: '' };
+            registro.value = { usuario: '', email: '', password: '' };
         }
     }
 
@@ -42,6 +58,21 @@ export const useUserStore = defineStore('user', () => {
             userData.value = null;
             localStorage.removeItem('userData');
         }
+    }
+
+    function setAvatar(avatarUrl: string | null) {
+        const key = getAvatarStorageKey(userData.value);
+        if (avatarUrl) {
+            localStorage.setItem(key, avatarUrl);
+        } else {
+            localStorage.removeItem(key);
+        }
+        if (!userData.value) {
+            userData.value = { picture: avatarUrl } as any;
+        } else {
+            userData.value = { ...userData.value, picture: avatarUrl };
+        }
+        localStorage.setItem('userData', JSON.stringify(userData.value));
     }
 
     function $login(){
@@ -57,5 +88,5 @@ export const useUserStore = defineStore('user', () => {
             return res.data;
         })
     }
-    return { registro, login, $login, token, $setLogin, userData, $registro, setRandomUser };
+    return { registro, login, $login, token, $setLogin, userData, $registro, setRandomUser, setAvatar };
 });

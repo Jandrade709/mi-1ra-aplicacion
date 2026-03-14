@@ -1,2 +1,122 @@
 /* For information on how to create your own theme, please refer to:
 http://ionicframework.com/docs/theming/ */
+
+:root {
+  --ion-color-primary: #5b67f0;
+  --ion-color-primary-rgb: 91, 103, 240;
+  --ion-color-primary-contrast: #0c0c0c;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #505be4;
+  --ion-color-primary-tint: #6c76f2;
+
+  --ion-color-secondary: #8b5cf6;
+  --ion-color-secondary-rgb: 139, 92, 246;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #7a51d8;
+  --ion-color-secondary-tint: #986df7;
+
+  --ion-color-tertiary: #22d3ee;
+  --ion-color-tertiary-rgb: 34, 211, 238;
+  --ion-color-tertiary-contrast: #0f172a;
+  --ion-color-tertiary-contrast-rgb: 15, 23, 42;
+  --ion-color-tertiary-shade: #1eb9d1;
+  --ion-color-tertiary-tint: #3ad8f0;
+
+  --app-background: linear-gradient(135deg, #2a1b5a 0%, #3b1d5a 45%, #1a1235 100%);
+  --app-surface: rgba(255, 255, 255, 0.1);
+  --app-surface-strong: rgba(255, 255, 255, 0.16);
+  --app-border: rgba(255, 255, 255, 0.2);
+  --app-text-strong: #0c0c0c;
+  --app-text-muted: rgba(248, 250, 252, 0.78);
+  --app-text-dark: #1e1b4b;
+}
+
+ion-content {
+  --background: var(--app-background);
+  color: var(--app-text-strong);
+}
+
+ion-toolbar {
+  --background: var(--app-surface-strong);
+  --color: var(--app-text-strong);
+  --border-color: transparent;
+  backdrop-filter: blur(12px);
+}
+
+ion-title {
+  letter-spacing: -0.4px;
+  font-weight: 700;
+}
+
+ion-item {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+ion-input,
+ion-textarea,
+ion-select {
+  --background: rgba(255, 255, 255, 0.95);
+  --color: var(--app-text-dark);
+  --placeholder-color: rgba(30, 27, 75, 0.6);
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+ion-button {
+  --border-radius: 12px;
+  --box-shadow: 0 10px 24px rgba(15, 23, 42, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+ion-card {
+  --background: var(--app-surface);
+  --color: var(--app-text-strong);
+  border: 1px solid var(--app-border);
+  border-radius: 20px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.35);
+}
+
+ion-card-title {
+  color: var(--app-text-strong);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+ion-card-subtitle {
+  color: var(--app-text-muted);
+  font-size: 14px;
+}
+
+.app-page-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.glass-card {
+  width: min(420px, 92vw);
+}
+
+.form-list {
+  background: transparent;
+}
+
+.form-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+ion-menu::part(backdrop) {
+  background-color: rgba(20, 10, 45, 0.65);
+}
+
+ion-menu::part(container) {
+  border-radius: 0 24px 24px 0;
+  box-shadow: 12px 0 30px rgba(13, 6, 30, 0.45);
+}

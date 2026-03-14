@@ -1,36 +1,56 @@
 <template>
     <ion-page v-if="!contentStore.loading">
-        <ion-content class="ion-padding" >
-            <div v-html="contentStore.content.contenido.contenido"></div>
-            <div class="video-container" v-if="contentStore.content.contenido.youtube">
-                <iframe 
-                    width="560" 
-                    height="315" 
-                    :src="'https://www.youtube.com/embed/'+contentStore.content.contenido.youtube.replace('https://youtu.be/','')" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    referrerpolicy="strict-origin-when-cross-origin"
-                     allowfullscreen>
-                    </iframe>
-            </div>
+        <ion-content class="ion-padding content-screen" >
+            <ion-card class="content-card">
+                <ion-card-header>
+                    <ion-card-title>{{ contentStore.content.contenido.name || 'Contenido' }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <div class="content-html" v-html="contentStore.content.contenido.contenido"></div>
+                    <div class="video-container" v-if="contentStore.content.contenido.youtube">
+                        <iframe 
+                            width="560" 
+                            height="315" 
+                            :src="'https://www.youtube.com/embed/'+contentStore.content.contenido.youtube.replace('https://youtu.be/','')" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+                <ion-fab-button color="tertiary" @click="handleAvatarCapture" aria-label="Cambiar avatar">
+                    <ion-icon :icon="cameraOutline"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
         </ion-content>
         <ion-footer :translucent="true">
             <ion-toolbar>
-            <ion-button slot="end" fill="solid" size="small" @click="siguiente()" v-if="contentStore.next.url">Siguiente</ion-button>
-             <ion-progress-bar v-if="contentStore.loading" type="indeterminate"></ion-progress-bar>
+                <ion-button slot="start" fill="solid" size="small" @click="anterior()" v-if="previousItem?.url">Anterior</ion-button>
+                <ion-button slot="end" fill="solid" size="small" @click="siguiente()" v-if="contentStore.next.url">Siguiente</ion-button>
+            <ion-progress-bar v-if="contentStore.loading" type="indeterminate"></ion-progress-bar>
             </ion-toolbar>
         </ion-footer>
     </ion-page>
 </template>
 <script setup lang="ts">
-import { computed, watch } from 'vue';
-import { IonPage, IonToolbar, IonContent, IonFooter, IonButton, IonProgressBar } from '@ionic/vue';
+import { computed, watch, ref } from 'vue';
+import { IonPage, IonToolbar, IonContent, IonFooter, IonButton, IonProgressBar, IonButtons,
+  IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonFab, IonFabButton, IonIcon } from '@ionic/vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useContentStore } from '@/stores/content';
+import { useUserStore } from '@/stores/user';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { cameraOutline } from 'ionicons/icons';
 const route = useRoute(); 
 const contentStore = useContentStore();
+const userStore = useUserStore();
 const router = useRouter();
+const previousItem = ref<MenuItem | null>(null);
 
 type MenuItem = {
   id: number | null;
@@ -46,6 +66,7 @@ function updateNext() {
   const currentIndex = items.findIndex((item) => item.internal_name === currentName.value);
   const nextItem = currentIndex >= 0 ? items[currentIndex + 1] : null;
   contentStore.$setNext(nextItem || null);
+  previousItem.value = currentIndex > 0 ? items[currentIndex - 1] : null;
 }
 
 function activateNextItem() {
@@ -69,16 +90,70 @@ async function siguiente(){
     }
 }
 
+async function anterior(){
+    if(previousItem.value?.url && previousItem.value?.internal_name){
+        await contentStore.$getContent(previousItem.value.internal_name);
+        await router.push('/' + previousItem.value.url);
+    }
+}
+
+async function handleAvatarCapture() {
+  try {
+    const image = await Camera.getPhoto({
+      quality: 85,
+      allowEditing: true,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Prompt
+    });
+
+    if (image.webPath) {
+      userStore.setAvatar(image.webPath);
+    }
+  } catch (error) {
+    console.warn('No se pudo actualizar el avatar', error);
+  }
+}
+
 watch([() => contentStore.menu, currentName], () => {
   updateNext();
 }, { deep: true, immediate: true });
 </script>
 <style scoped>
+
+
+.content-screen {
+  --background: var(--app-background);
+}
+
+.content-card {
+  margin: 0;
+}
+
+.content-html :deep(h1),
+.content-html :deep(h2),
+.content-html :deep(h3) {
+  color: var(--app-text-strong);
+  letter-spacing: -0.3px;
+}
+
+.content-html :deep(p),
+.content-html :deep(li) {
+  color: var(--app-text-muted);
+  line-height: 1.6;
+}
+
+.content-html :deep(a) {
+  color: var(--ion-color-tertiary);
+}
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%; /* Aspect ratio 16:9 */
   height: 0;
   overflow: hidden;
+  margin-top: 16px;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.35);
 }
 .video-container iframe {
   position: absolute;

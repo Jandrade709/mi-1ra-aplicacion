@@ -2,21 +2,35 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import BaseLayout from '@/layouts/BaseLayout.vue';
 import { useUserStore } from '@/stores/user';
+import pinia from '@/stores/pinia';
 
 const Login = () => import('@/views/LoginPage.vue');
 const Registro = () => import('@/views/RegistroPage.vue');
 const Camera = () => import('@/views/Camera.vue');
 const SeccionContenidos = () => import('@/views/SeccionContenidos.vue');
 
+function safeParseJson<T>(value: string | null): T | null {
+  if (!value) return null;
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return null;
+  }
+}
+
 function getAuthenticatedHomePath() {
-  const userStore = useUserStore();
-  return userStore.token ? (localStorage.getItem('home') ? JSON.parse(localStorage.getItem('home') as string)?.url : null) : null;
+  const userStore = useUserStore(pinia);
+  const home = safeParseJson<{ url?: string }>(localStorage.getItem('home'));
+  return userStore.token ? (home?.url ?? null) : null;
 }
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: () => getAuthenticatedHomePath() ? `/${getAuthenticatedHomePath()}` : '/login'
+    redirect: () => {
+      const homePath = getAuthenticatedHomePath();
+      return homePath ? `/${homePath}` : '/login';
+    }
   },
   {
     path: '/login',
@@ -52,7 +66,10 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '',
-        redirect: () => getAuthenticatedHomePath() ? `/${getAuthenticatedHomePath()}` : '/login'
+        redirect: () => {
+          const homePath = getAuthenticatedHomePath();
+          return homePath ? `/${homePath}` : '/login';
+        }
       },
       {
         path: ':name',
@@ -72,7 +89,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const userStore = useUserStore();
+  const userStore = useUserStore(pinia);
   const isAuthenticated = !!userStore.token;
   const isGuestOnlyRoute = to.name === 'Login' || to.name === 'Registro';
   const homePath = getAuthenticatedHomePath();
