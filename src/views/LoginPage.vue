@@ -4,7 +4,7 @@
             <div class="app-page-center">
                 <div class="login-shell">
                     <div class="brand-block">
-                        <div class="logo-mark">MA</div>
+                        <img class="logo-mark" src="/favicon.png" alt="MenuAccess" />
                         <h1 class="brand-title">MenuAccess</h1>
                     </div>
 
@@ -115,14 +115,12 @@ async function handleLogin() {
 .logo-mark {
     width: 88px;
     height: 88px;
-    border-radius: 24px;
+    border-radius: 20px;
     background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    display: grid;
-    place-items: center;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 2px;
+    border: 2px solid #0f172a;
+    padding: 6px;
+    object-fit: contain;
+    display: block;
 }
 
 .brand-title {

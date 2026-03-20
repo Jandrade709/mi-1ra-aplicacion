@@ -2,15 +2,15 @@
     <ion-page>
         <ion-menu content-id="main-content">
             <ion-header>
-            <ion-toolbar color="primary">
+            <ion-toolbar class="menu-toolbar">
                 <ion-title>Menu</ion-title>
             </ion-toolbar>
             </ion-header>
             <ion-content>
                 <ion-list>
-                    <ion-item>
-                        <ion-avatar aria-hidden="true" slot="start">
-                            <img alt="Avatar de perfil" :src="userStore.userData?.picture || defaultAvatar" />
+                    <ion-item class="menu-user">
+                        <ion-avatar aria-hidden="true" slot="start" class="menu-avatar">
+                            <img alt="Avatar de perfil" :src="userStore.userData?.picture || defaultAvatar" class="menu-avatar-image" />
                         </ion-avatar>
                         <ion-label>{{ userStore.userData?.usuario || 'Usuario' }}</ion-label>
                         <ion-button slot="end" fill="solid" size="small" @click="handleLogout">Salir</ion-button>
@@ -18,14 +18,15 @@
                     <ion-accordion-group>
                         <template v-for="(menu, key) in contentStore.menu" :key="key">
                             <ion-accordion :value="'menu-'+key">
-                                <ion-item slot="header" color="secondary">
+                                <ion-item slot="header" class="menu-group">
                                     <ion-label><i :class="menu.icon"></i> {{ menu.name }}</ion-label>
                                 </ion-item>
                                 <div slot="content">
                                     <ion-list>
                                         <template v-for="(item, itemKey) in menu.sub" :key="itemKey">
                                             <ion-menu-toggle v-if="item.active === 'yes'">
-                                                <ion-item 
+                                                <ion-item
+                                                class="menu-item"
                                                 :router-link="'/'+item.url"
                                                 @click="handleMenuNavigation(item.internal_name)"
                                                 >
@@ -42,7 +43,7 @@
             </ion-content>
         </ion-menu>
         <ion-header>
-        <ion-toolbar>
+        <ion-toolbar class="app-toolbar">
             <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
             </ion-buttons>
@@ -97,4 +98,53 @@
 </script>
 
 <style scoped>
+.menu-toolbar {
+  --background: var(--app-surface-strong);
+  --color: var(--app-text-strong);
+  --border-color: transparent;
+}
+
+.app-toolbar {
+  --background: var(--app-surface-strong);
+  --color: var(--app-text-strong);
+  --border-color: transparent;
+}
+
+ion-menu ion-content {
+  --background: #f8fafc;
+}
+
+.menu-user {
+  --background: transparent;
+  --color: var(--app-text-strong);
+}
+
+.menu-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #0f172a;
+  padding: 2px;
+  background: #ffffff;
+}
+
+.menu-avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.menu-group {
+  --background: rgba(56, 189, 248, 0.16);
+  --color: var(--app-text-strong);
+  border-radius: 14px;
+  margin: 6px 10px;
+}
+
+.menu-item {
+  --background: transparent;
+  --color: var(--app-text-strong);
+}
 </style>

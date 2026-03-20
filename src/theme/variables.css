@@ -2,34 +2,34 @@
 http://ionicframework.com/docs/theming/ */
 
 :root {
-  --ion-color-primary: #5b67f0;
-  --ion-color-primary-rgb: 91, 103, 240;
-  --ion-color-primary-contrast: #0c0c0c;
+  --ion-color-primary: #1e3a8a;
+  --ion-color-primary-rgb: 30, 58, 138;
+  --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #505be4;
-  --ion-color-primary-tint: #6c76f2;
+  --ion-color-primary-shade: #1a3278;
+  --ion-color-primary-tint: #3650a1;
 
-  --ion-color-secondary: #8b5cf6;
-  --ion-color-secondary-rgb: 139, 92, 246;
-  --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #7a51d8;
-  --ion-color-secondary-tint: #986df7;
+  --ion-color-secondary: #38bdf8;
+  --ion-color-secondary-rgb: 56, 189, 248;
+  --ion-color-secondary-contrast: #0f172a;
+  --ion-color-secondary-contrast-rgb: 15, 23, 42;
+  --ion-color-secondary-shade: #31a8db;
+  --ion-color-secondary-tint: #5cc7f9;
 
-  --ion-color-tertiary: #22d3ee;
-  --ion-color-tertiary-rgb: 34, 211, 238;
+  --ion-color-tertiary: #0ea5e9;
+  --ion-color-tertiary-rgb: 14, 165, 233;
   --ion-color-tertiary-contrast: #0f172a;
   --ion-color-tertiary-contrast-rgb: 15, 23, 42;
-  --ion-color-tertiary-shade: #1eb9d1;
-  --ion-color-tertiary-tint: #3ad8f0;
+  --ion-color-tertiary-shade: #0c91cc;
+  --ion-color-tertiary-tint: #30b1ee;
 
-  --app-background: linear-gradient(135deg, #2a1b5a 0%, #3b1d5a 45%, #1a1235 100%);
-  --app-surface: rgba(255, 255, 255, 0.1);
-  --app-surface-strong: rgba(255, 255, 255, 0.16);
-  --app-border: rgba(255, 255, 255, 0.2);
-  --app-text-strong: #0c0c0c;
-  --app-text-muted: rgba(248, 250, 252, 0.78);
-  --app-text-dark: #1e1b4b;
+  --app-background: linear-gradient(135deg, #f4f7fb 0%, #eef2f7 100%);
+  --app-surface: rgba(255, 255, 255, 0.82);
+  --app-surface-strong: rgba(255, 255, 255, 0.92);
+  --app-border: rgba(15, 23, 42, 0.12);
+  --app-text-strong: #0f172a;
+  --app-text-muted: #64748b;
+  --app-text-dark: #0f172a;
 }
 
 ion-content {
@@ -57,16 +57,16 @@ ion-item {
 ion-input,
 ion-textarea,
 ion-select {
-  --background: rgba(255, 255, 255, 0.95);
+  --background: #ffffff;
   --color: var(--app-text-dark);
-  --placeholder-color: rgba(30, 27, 75, 0.6);
+  --placeholder-color: rgba(100, 116, 139, 0.8);
   border-radius: 10px;
   font-weight: 600;
 }
 
 ion-button {
   --border-radius: 12px;
-  --box-shadow: 0 10px 24px rgba(15, 23, 42, 0.3);
+  --box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
   font-weight: 700;
   letter-spacing: 0.2px;
 }
@@ -77,7 +77,7 @@ ion-card {
   border: 1px solid var(--app-border);
   border-radius: 20px;
   backdrop-filter: blur(14px);
-  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.18);
 }
 
 ion-card-title {
@@ -113,10 +113,10 @@ ion-card-subtitle {
 }
 
 ion-menu::part(backdrop) {
-  background-color: rgba(20, 10, 45, 0.65);
+  background-color: rgba(15, 23, 42, 0.22);
 }
 
 ion-menu::part(container) {
   border-radius: 0 24px 24px 0;
-  box-shadow: 12px 0 30px rgba(13, 6, 30, 0.45);
+  box-shadow: 12px 0 30px rgba(15, 23, 42, 0.18);
 }

@@ -1,98 +1,96 @@
 <template>
     <ion-page>
-        <ion-header>
-            <ion-toolbar>
-            
-            <ion-title>Crear Cuenta</ion-title>
-            <ion-buttons slot="end">
-                <ion-button fill="solid" @click="router.push({ name: 'Login'})">Regresar</ion-button>
-            </ion-buttons>
-        </ion-toolbar>
-        </ion-header>
         <ion-content class="ion-padding auth-content">
             <div class="app-page-center">
-                <ion-card class="glass-card">
-                    <ion-card-header>
-                        <ion-card-title>Registro</ion-card-title>
-                        <ion-card-subtitle>Crea tu cuenta para empezar</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                        <ion-list class="form-list" lines="none">
-                            <ion-item>                
-                                <ion-input
-                                    :disabled="loading"
-                                    label="Usuario" 
-                                    label-placement="floating" 
-                                    fill="outline" 
-                                    v-model="userStore.registro.usuario"
-                                    placeholder="Elige un usuario"
-                                    @blur="$v.usuario?.$touch()">
-                                </ion-input>
-                            </ion-item>
+                <div class="login-shell">
+                    <div class="brand-block">
+                        <img class="logo-mark" src="/favicon.png" alt="MenuAccess" />
+                        <h1 class="brand-title">MenuAccess</h1>
+                    </div>
 
+                    <div class="form-stack">
+                        <div class="field-group">
+                            <label class="field-label">Usuario</label>
+                            <ion-input
+                                class="input-rounded"
+                                :disabled="loading"
+                                fill="outline"
+                                v-model="userStore.registro.usuario"
+                                placeholder="Elige un usuario"
+                                @blur="$v.usuario?.$touch()">
+                            </ion-input>
                             <ion-note v-if="$v.usuario?.$errors?.length && $v.usuario.$dirty" class="validation-note">
                                 El usuario es requerido y debe tener al menos 4 caracteres
                             </ion-note>
-                            
-                            <ion-item>                
-                                <ion-input 
-                                    :disabled="loading"
-                                    label="Email" 
-                                    label-placement="floating" 
-                                    fill="outline" 
-                                    v-model="userStore.registro.email"
-                                    placeholder="tu@email.com"
-                                    @blur="$v.email?.$touch()">
-                                </ion-input>
-                            </ion-item>
+                        </div>
 
+                        <div class="field-group">
+                            <label class="field-label">Email</label>
+                            <ion-input
+                                class="input-rounded"
+                                :disabled="loading"
+                                fill="outline"
+                                v-model="userStore.registro.email"
+                                placeholder="tu@email.com"
+                                @blur="$v.email?.$touch()">
+                            </ion-input>
                             <ion-note v-if="$v.email?.$errors?.length && $v.email.$dirty" class="validation-note">
                                 El email es requerido y debe tener un formato válido
                             </ion-note>
-                            
-                            <ion-item>
-                                <ion-input
-                                    :disabled="loading"
-                                    label="Contraseña" 
-                                    label-placement="floating" 
-                                    fill="outline" 
-                                    placeholder="Mínimo 6 caracteres" 
-                                    v-model="userStore.registro.password"
-                                    type="password"
-                                    @blur="$v.password?.$touch()">
-                                </ion-input>
-                            </ion-item>
+                        </div>
+
+                        <div class="field-group">
+                            <label class="field-label">Contraseña</label>
+                            <ion-input
+                                class="input-rounded"
+                                :disabled="loading"
+                                fill="outline"
+                                placeholder="Mínimo 6 caracteres"
+                                v-model="userStore.registro.password"
+                                type="password"
+                                @blur="$v.password?.$touch()">
+                            </ion-input>
                             <ion-note v-if="$v.password?.$errors?.length && $v.password.$dirty" class="validation-note">
                                 La contraseña es requerida y debe tener al menos 6 caracteres
-                            </ion-note>   
-                            
-                            <div class="form-actions">
-                                <ion-button size="default" @click="handleRegister" :disabled="loading"> 
-                                    <span v-if="!loading">Registrarse</span>
-                                    <ion-spinner v-if="loading" name="crescent"></ion-spinner>
-                                </ion-button>
-                            </div>
+                            </ion-note>
+                        </div>
 
-                            <ion-button color="tertiary" @click="loadRandomUser" expand="block"> Presiona para ver un ejemplo de usuario </ion-button>
-                            <div v-if="userStore.userData" class="example-user ion-margin-top">
-                                <img v-if="userStore.userData.picture" :src="userStore.userData.picture" alt="avatar" class="avatar" />
-                                <div class="user-info">
-                                    <strong>{{ userStore.userData.name }}</strong>
-                                    <div>{{ userStore.userData.email }}</div>
-                                </div>
+                        <ion-button
+                            class="login-button"
+                            expand="block"
+                            @click="handleRegister"
+                            :disabled="loading">
+                            <span v-if="!loading">Registrarse</span>
+                            <ion-spinner v-if="loading" name="crescent"></ion-spinner>
+                        </ion-button>
+
+                        <ion-button class="example-button" fill="outline" expand="block" @click="loadRandomUser">
+                            Presiona para ver un ejemplo de usuario
+                        </ion-button>
+
+                        <div v-if="userStore.userData" class="example-user">
+                            <img v-if="userStore.userData.picture" :src="userStore.userData.picture" alt="avatar" class="avatar" />
+                            <div class="user-info">
+                                <strong>{{ userStore.userData.name }}</strong>
+                                <div>{{ userStore.userData.email }}</div>
                             </div>
-                        </ion-list>
-                    </ion-card-content>
-                </ion-card>
+                        </div>
+                    </div>
+
+                    <div class="register-block">
+                        <ion-text class="register-text">¿Ya tienes cuenta?</ion-text>
+                        <ion-button fill="clear" size="small" @click="router.push({ name: 'Login'})">
+                            Iniciar sesión
+                        </ion-button>
+                    </div>
+                </div>
             </div>
         </ion-content>
     </ion-page>
 
 </template>
 <script lang="ts" setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonItem, 
-    IonInput, IonButton, IonButtons, alertController, IonSpinner, IonNote,
-    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle, IonList } from '@ionic/vue';
+import { IonPage, IonContent, IonInput, IonButton, alertController, IonSpinner, IonNote, IonText } from '@ionic/vue';
 import { useUserStore } from '@/stores/user';
 import { fetchRandomUsers } from '@/axios/axiosRandom';
 import { useRouter } from 'vue-router';
@@ -154,6 +152,91 @@ async function loadRandomUser(){
     --background: var(--app-background);
 }
 
+.login-shell {
+    width: min(420px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.brand-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.logo-mark {
+    width: 88px;
+    height: 88px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 2px solid #0f172a;
+    padding: 6px;
+    object-fit: contain;
+    display: block;
+}
+
+.brand-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.form-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.field-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ion-color-step-650, #4f4f4f);
+}
+
+.input-rounded {
+    --border-radius: 18px;
+    --padding-start: 14px;
+    --padding-end: 14px;
+    --padding-top: 14px;
+    --padding-bottom: 14px;
+}
+
+.login-button {
+    --border-radius: 18px;
+    height: 48px;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.example-button {
+    --border-radius: 18px;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+.register-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.register-text {
+    font-size: 14px;
+    color: var(--ion-color-step-600, #5b5b5b);
+}
+
 .validation-note {
     display: block;
     margin: 4px 0 12px 8px;
@@ -166,7 +249,7 @@ async function loadRandomUser(){
     display:flex;
     align-items:center;
     gap:12px;
-    margin-top:12px;
+    margin-top:4px;
     color: var(--app-text-strong);
 }
 

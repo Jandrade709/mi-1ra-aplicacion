@@ -1,26 +1,28 @@
 <template>
     <ion-page v-if="!contentStore.loading">
         <ion-content class="ion-padding content-screen" >
-            <ion-card class="content-card">
-                <ion-card-header>
-                    <ion-card-title>{{ contentStore.content.contenido.name || 'Contenido' }}</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                    <div class="content-html" v-html="contentStore.content.contenido.contenido"></div>
-                    <div class="video-container" v-if="contentStore.content.contenido.youtube">
-                        <iframe 
-                            width="560" 
-                            height="315" 
-                            :src="'https://www.youtube.com/embed/'+contentStore.content.contenido.youtube.replace('https://youtu.be/','')" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </ion-card-content>
-            </ion-card>
+            <div class="content-shell">
+                <ion-card class="content-card">
+                    <ion-card-header class="content-header">
+                        <ion-card-title class="content-title">{{ contentStore.content.contenido.name || 'Contenido' }}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content class="content-body">
+                        <div class="content-html" v-html="contentStore.content.contenido.contenido"></div>
+                        <div class="video-container" v-if="contentStore.content.contenido.youtube">
+                            <iframe 
+                                width="560" 
+                                height="315" 
+                                :src="'https://www.youtube.com/embed/'+contentStore.content.contenido.youtube.replace('https://youtu.be/','')" 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </ion-card-content>
+                </ion-card>
+            </div>
 
             <ion-fab slot="fixed" vertical="bottom" horizontal="end">
                 <ion-fab-button color="tertiary" @click="handleAvatarCapture" aria-label="Cambiar avatar">
@@ -30,8 +32,8 @@
         </ion-content>
         <ion-footer :translucent="true">
             <ion-toolbar>
-                <ion-button slot="start" fill="solid" size="small" @click="anterior()" v-if="previousItem?.url">Anterior</ion-button>
-                <ion-button slot="end" fill="solid" size="small" @click="siguiente()" v-if="contentStore.next.url">Siguiente</ion-button>
+                <ion-button class="nav-button" slot="start" fill="solid" size="small" @click="anterior()" v-if="previousItem?.url">Anterior</ion-button>
+                <ion-button class="nav-button" slot="end" fill="solid" size="small" @click="siguiente()" v-if="contentStore.next.url">Siguiente</ion-button>
             <ion-progress-bar v-if="contentStore.loading" type="indeterminate"></ion-progress-bar>
             </ion-toolbar>
         </ion-footer>
@@ -145,8 +147,38 @@ watch([() => contentStore.menu, currentName], () => {
   --background: var(--app-background);
 }
 
+.content-shell {
+  width: min(980px, 100%);
+  margin: 0 auto;
+}
+
 .content-card {
   margin: 0;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.3);
+}
+
+.content-header {
+  padding-bottom: 0;
+}
+
+.content-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--app-text-strong);
+}
+
+.content-body {
+  padding-top: 8px;
+}
+
+.nav-button {
+  --border-radius: 18px;
+  height: 40px;
+  font-weight: 600;
 }
 
 .content-html :deep(h1),
