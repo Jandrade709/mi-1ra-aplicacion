@@ -4,8 +4,8 @@
             <div class="app-page-center">
                 <div class="login-shell">
                     <div class="brand-block">
-                        <img class="logo-mark" src="/favicon.png" alt="MenuAccess" />
-                        <h1 class="brand-title">MenuAccess</h1>
+                        <img class="logo-mark" src="/favicon.png" alt="Menu_Access" />
+                        <h1 class="brand-title">Menu_Access</h1>
                     </div>
 
                     <div class="form-stack">
